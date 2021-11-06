@@ -1,14 +1,24 @@
 
 
+
 data Tree a b = Branch b (Tree a b) (Tree a b)
                 | Leaf a
 -- ask the prof what is this and line 10 mysterious syntax
-showTree :: (Show a, Show b) => Tree a b  -> String
+showTree :: (Show a, Show b) => Tree a b -> String
 showTree (Leaf a) = ['\t'] ++ show a -- i want this to go backwards one if it is the last one???
-showTree (Branch b l r) = show b ++ "\n\t" ++ showTree l ++ "\n\t" ++showTree r
+showTree (Branch b l r) = show b ++ "\n\t" ++ showTree l ++ "\n\t" ++showTree r 
+
+--why do new lines stop working what is wrong with this
+showTree2 :: (Show a, Show b) => Tree a b  -> Int -> String
+showTree2 (Leaf a)  f = ['\n'] ++ extend  ++ show a
+    where extend = foldr (++) " " ([" " | x<-[1..f]])
+showTree2 (Branch b l r)  f = ['\n'] ++ show b ++ extend ++ showTree2 l (f+8) ++ extend ++showTree2 r (f+8)
+    where extend = foldr (++) "\n" ([" " | x<-[1..f]])
+
 
 instance (Show a, Show b) => Show (Tree a b) where
     show = showTree
+
 
 mytree = Branch "A" (Branch "B" (Leaf (1::Int)) (Leaf (2::Int))) (Leaf (3::Int))
 
