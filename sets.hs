@@ -19,3 +19,6 @@ setProd2 set1 set2 = zip (take l (cycle set1)) (take l (cycle set2))
 setProd:: (Eq t, Eq t1) => Set t -> Set t1 -> Set (t,t1)
 setProd set1 set2 = zip (concatMap (replicate (length set2)) set1) (take l (cycle set2))
                         where l = lcm (length set1) (length set2)
+
+partitionSet :: Eq t => Set t -> Set( Set (Set t))
+partitionSet set1 = 

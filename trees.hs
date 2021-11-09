@@ -9,15 +9,15 @@ showTree (Leaf a) = ['\t'] ++ show a -- i want this to go backwards one if it is
 showTree (Branch b l r) = show b ++ "\n\t" ++ showTree l ++ "\n\t" ++showTree r 
 
 --why do new lines stop working what is wrong with this
-showTree2 :: (Show a, Show b) => Tree a b  -> Int -> String
-showTree2 (Leaf a)  f = ['\n'] ++ extend  ++ show a
+showTree2 :: (Show a, Show b) => Int-> Tree a b -> String
+showTree2 f (Leaf a)  = ['\n'] ++ extend  ++ show a
     where extend = foldr (++) " " ([" " | x<-[1..f]])
-showTree2 (Branch b l r)  f = ['\n'] ++ show b ++ extend ++ showTree2 l (f+8) ++ extend ++showTree2 r (f+8)
-    where extend = foldr (++) "\n" ([" " | x<-[1..f]])
+showTree2 f (Branch b l r)  = ['\n'] ++ extend ++ show b ++ showTree2 (f+8) l ++ extend ++showTree2 (f+8) r 
+    where extend = foldr (++) " " ([" " | x<-[1..f]])
 
 
 instance (Show a, Show b) => Show (Tree a b) where
-    show = showTree
+    show = showTree2 0
 
 
 mytree = Branch "A" (Branch "B" (Leaf (1::Int)) (Leaf (2::Int))) (Leaf (3::Int))
@@ -35,3 +35,4 @@ mapbranches branch = map show branch --makes a common type c?
 --preorder takes a function 1 which gets all the leaves to common type c
 -- function two gets all the branches to common type c 
 --preorder :: (a->c) -> (b->c) -> Tree a b -> [c]
+--preorder leafMap branchMap myTree = leafMap (branchMap myTree)
