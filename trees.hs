@@ -29,10 +29,16 @@ leafCollection (Branch b l r) = leafCollection l ++ leafCollection r
 bcol :: Tree a b  -> [b] --needs to be a common type c
 bcol (Leaf a) = []
 bcol (Branch b l r) = [b] ++ bcol l ++ bcol r
-mapleaves leaves = map show leaves --makes a common type c?
-mapbranches branch = map show branch --makes a common type c?
+
+mapleaves :: Show a => [a] -> [String]
+mapleaves leaves = map show ( leaves) --makes a common type c?
+mapbranches :: Show a => [a] -> [String]
+mapbranches branch = map show ( branch) --makes a common type c?
 
 --preorder takes a function 1 which gets all the leaves to common type c
 -- function two gets all the branches to common type c 
 --preorder :: (a->c) -> (b->c) -> Tree a b -> [c]
 --preorder leafMap branchMap myTree = leafMap (branchMap myTree)
+tester:: (Show a , Show b) => Tree a b -> String
+tester (Leaf a) =  show a
+tester (Branch b l r) = show b ++ if True then tester l else tester l ++ tester r
