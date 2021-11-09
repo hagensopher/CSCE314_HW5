@@ -39,6 +39,13 @@ mapbranches branch = map show ( branch) --makes a common type c?
 -- function two gets all the branches to common type c 
 --preorder :: (a->c) -> (b->c) -> Tree a b -> [c]
 --preorder leafMap branchMap myTree = leafMap (branchMap myTree)
-tester:: (Show a , Show b) => Tree a b -> String
-tester (Leaf a) =  show a
-tester (Branch b l r) = show b ++ if True then tester l else tester l ++ tester r
+preorder:: (Show a , Show b) => Tree a b -> String
+preorder (Leaf a) =  show a
+preorder (Branch b l r) = show b ++  preorder l ++  preorder r
+
+postorder:: (Show a , Show b) => Tree a b -> String 
+postorder myTree = reverse (preorder myTree)
+
+inorder:: (Show a, Show b) => Tree a b -> String 
+inorder (Leaf a) = show a
+inorder (Branch b l r) = inorder l ++ show b ++ inorder r
