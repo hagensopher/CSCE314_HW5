@@ -34,6 +34,10 @@ setLooper:: Set t -> Int -> Set (Set t)
 setLooper [] _ = []
 setLooper mySet n = take n mySet : setLooper (drop n mySet) n
 
+setChecker:: Eq t => Set t -> Set (Set t) -> Bool 
+setChecker _ [] = False
+setChecker mySet (x:xs) = if setEqual mySet x then True else setChecker mySet xs
+
 orderLooper:: Set t -> Set(Set t) -> Int -> Set(Set(Set t))
 orderLooper mySet setLists n = if n <= length mySet then setLooper mySet n : orderLooper mySet setLists (n+1) else []
     
@@ -41,4 +45,5 @@ orderLooper mySet setLists n = if n <= length mySet then setLooper mySet n : ord
 bigLooper:: Set t -> Int -> Set(Set(Set t))
 bigLooper mySet n = if n <= length mySet then orderLooper mySet [] 1 ++ bigLooper newSet (n+1) else []
     where newSet = rotate mySet 1
- 
+filterDup:: Set(Set(Set t)) -> Set (Set(Set t))
+filterDup mySet = map (init) mySet 
