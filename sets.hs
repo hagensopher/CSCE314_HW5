@@ -20,5 +20,10 @@ setProd:: (Eq t, Eq t1) => Set t -> Set t1 -> Set (t,t1)
 setProd set1 set2 = zip (concatMap (replicate (length set2)) set1) (take l (cycle set2))
                         where l = lcm (length set1) (length set2)
 
-partitionSet :: Eq t => Set t -> Set( Set (Set t))
-partitionSet set1 = 
+--partitionSet :: Eq t => Set t -> Set( Set (Set t))
+--partitionSet
+-- this can give us sets like 
+-- Set s = [1,2,3] => [[1],[2],[3]] , [[1,2],[3]]
+setLooper:: Set t -> Int -> Set (Set t)
+setLooper [] _ = []
+setLooper mySet n = take n mySet : setLooper (drop n mySet) n
