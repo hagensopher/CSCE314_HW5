@@ -23,7 +23,22 @@ setProd set1 set2 = zip (concatMap (replicate (length set2)) set1) (take l (cycl
 --partitionSet :: Eq t => Set t -> Set( Set (Set t))
 --partitionSet
 -- this can give us sets like 
+
+--rotate function from homework 3
+rotate:: Set t -> Int -> Set t 
+rotate xs n = take len . drop(n `mod` len) . cycle $ xs
+    where len = length xs
+
 -- Set s = [1,2,3] => [[1],[2],[3]] , [[1,2],[3]]
 setLooper:: Set t -> Int -> Set (Set t)
 setLooper [] _ = []
 setLooper mySet n = take n mySet : setLooper (drop n mySet) n
+
+orderLooper:: Set t -> Set(Set t) -> Int -> Set(Set(Set t))
+orderLooper mySet setLists n = if n <= length mySet then setLooper mySet n : orderLooper mySet setLists (n+1) else []
+    
+
+bigLooper:: Set t -> Int -> Set(Set(Set t))
+bigLooper mySet n = if n <= length mySet then orderLooper mySet [] 1 ++ bigLooper newSet (n+1) else []
+    where newSet = rotate mySet 1
+ 
